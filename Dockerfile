@@ -1,15 +1,13 @@
 FROM ubuntu:20.04
 
-ARG ROOT_PASSWORD
+ARG ROOT_PASSWORD=bltok123
 
-RUN apt-get update && \
+RUN apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get install -y sudo bash curl wget nano lsb-release procps && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN echo "root:$ROOT_PASSWORD" | chpasswd && \
+    apt-get install -y sudo bash && \
+    echo "root:$ROOT_PASSWORD" | chpasswd && \
     echo "zyura" > /etc/hostname && \
-    echo "export PS1='<root@zyura •> '" >> /root/.bashrc
+    echo 'export PS1="root@zyura# "' >> /root/.bashrc && \
+    echo "alias su='echo \"Kamu sudah root!\"" >> /root/.bashrc
 
-CMD ["/bin/bash"]
+CMD ["/bin/bash", "--login"]
